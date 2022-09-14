@@ -1,0 +1,17 @@
+1. Assume that the residents of Podunk are exceptional and follow the old (and widely ignored) convention that whoever arrives at the intersection first proceeds first. Using the language of synchronization primitives describe the way this intersection is controlled. In what ways is this method suboptimal?
+-------------------------------------------------------------------------------------------------------------------------
+In this case, we use the convention that whoever arrives at the intersection first proceeds first.
+That means that, when a car approaches a route, it will acquire a lock. If any cars behind it approaches a route, they will also acquire locks but they has to wait because the first car is holding the locks. 
+After the first car left the intersection, it will release its lock. Then the next car will get its lock, and the others need to wait for turns to get their locks respectively.
+This method is suboptimal because it only allows only a car to enter the intersection. There will be one or two portions in (AB, BC, CA) left and not used if only a car can enter the intersection. This method does not maximize concurrency across threads. Three intersection portions are not utilized in an efficient way and hence this method is suboptimal.
+
+
+2. Now, assume that the residents of Podunk are like most people and do not follow the convention described above. In what one instance can this three-way-stop intersection produce a deadlock? (It will be helpful to think of this in terms of the model we are using instead of trying to visualize an actual intersection).
+-------------------------------------------------------------------------------------------------------------------------
+Assume that three cars approaches route A, B, C respectively. 
+If all these three cars are all waiting to turn left, the deadlock may produced. 
+In the case below, the deadlock is created:
+Car 1 holds the lock of the portion AB and it needs the lock of the portion BC.
+Car 2 holds the lock of the portion BC and it needs the lock of the portion CA.
+Car 3 holds the lock of the portion CA and it needs the lock of the portion AB.
+Every car is waiting for a release of the lock from the other car and hence it is a deadlock produced in the three-way-stop intersection.
